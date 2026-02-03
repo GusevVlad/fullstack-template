@@ -282,7 +282,7 @@
                         await fetch(`/api/cart/${this.sessionId}/item/${productId}`, {
                             method: 'PUT',
                             headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ quantity })
+                            body: JSON.stringify({ productId, quantity })
                         });
                         await this.fetchCart();
                     }
