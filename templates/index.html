@@ -7,164 +7,80 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-        }
-        .product-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-        }
-        .cart-overlay {
-            animation: fadeIn 0.3s ease-out;
-        }
-        .cart-modal {
-            animation: slideInRight 0.3s ease-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes slideInRight {
-            from { transform: translateX(100%); }
-            to { transform: translateX(0); }
-        }
-        .success-modal {
-            animation: slideUp 0.3s ease-out;
-        }
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(-50px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        body{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh}
+        .product-card:hover{transform:translateY(-10px);box-shadow:0 8px 25px rgba(0,0,0,0.2)}
+        .cart-overlay{animation:fadeIn .3s ease-out}
+        .cart-modal{animation:slideInRight .3s ease-out}
+        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+        @keyframes slideInRight{from{transform:translateX(100%)}to{transform:translateX(0)}}
+        .success-modal{animation:slideUp .3s ease-out}
+        @keyframes slideUp{from{opacity:0;transform:translateY(-50px)}to{opacity:1;transform:translateY(0)}}
     </style>
 </head>
 <body x-data="happinessStore()">
-    <!-- Header -->
     <header class="bg-white/95 backdrop-blur-sm shadow-lg sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 py-5">
-            <h1 class="text-3xl font-bold text-center bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-                🌟 Artificial Happiness Store 🌟
-            </h1>
+            <h1 class="text-3xl font-bold text-center bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">🌟 Artificial Happiness Store 🌟</h1>
             <p class="text-center text-gray-600 mt-2">Buy your happiness today!</p>
-            <button 
-                @click="showCart = !showCart"
-                class="mt-4 mx-auto block bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-2 rounded-full hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5"
-            >
-                🛒 Cart (<span x-text="cartItemCount"></span>) - <span x-text="cart.total"></span>₽
-            </button>
+            <button @click="showCart=!showCart" class="mt-4 mx-auto block bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-2 rounded-full hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5">🛒 Cart (<span x-text="cartItemCount"></span>) - <span x-text="cart.total"></span>₽</button>
         </div>
     </header>
 
-    <!-- Success Modal -->
     <div x-show="paymentSuccess" class="fixed inset-0 bg-black/50 flex items-center justify-center z-[1000]" x-transition.opacity>
         <div class="bg-white rounded-2xl p-8 max-w-md text-center success-modal">
             <h2 class="text-2xl font-bold text-green-500 mb-4">🎉 Payment Successful!</h2>
             <p class="text-gray-600 mb-2">Order ID: <span x-text="paymentSuccess.orderId"></span></p>
             <p class="text-gray-600 mb-4">Amount: <span x-text="paymentSuccess.amount"></span>₽</p>
             <p class="text-gray-600 mb-6">Your artificial happiness is on its way!</p>
-            <button 
-                @click="paymentSuccess = null"
-                class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-2 rounded-full hover:shadow-lg transition-all"
-            >
-                Continue Shopping
-            </button>
+            <button @click="paymentSuccess=null" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-2 rounded-full hover:shadow-lg transition-all">Continue Shopping</button>
         </div>
     </div>
 
-    <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 py-8">
-        <!-- Checkout View -->
         <div x-show="showCheckout" x-transition class="max-w-lg mx-auto">
             <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
                 <div class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-6 flex justify-between items-center">
                     <h2 class="text-xl font-bold">💳 Checkout</h2>
-                    <button @click="showCheckout = false" class="text-3xl hover:bg-white/20 w-10 h-10 rounded-full transition">×</button>
+                    <button @click="showCheckout=false" class="text-3xl hover:bg-white/20 w-10 h-10 rounded-full transition">×</button>
                 </div>
                 <div class="p-6">
-                    <!-- Order Summary -->
                     <div class="bg-gray-50 rounded-lg p-4 mb-6">
                         <h3 class="font-bold text-lg mb-4">Order Summary</h3>
                         <template x-for="item in cart.items" :key="item.productId">
                             <div class="flex justify-between py-2 border-b border-gray-200 last:border-0">
                                 <span><span x-text="item.image"></span> <span x-text="item.name"></span> × <span x-text="item.quantity"></span></span>
-                                <span x-text="item.price * item.quantity"></span>₽
+                                <span x-text="item.price*item.quantity"></span>₽
                             </div>
                         </template>
                         <div class="flex justify-between pt-4 mt-4 border-t-2 border-purple-600 font-bold text-lg">
-                            <span>Total:</span>
-                            <span class="text-purple-600" x-text="cart.total"></span>₽
+                            <span>Total:</span><span class="text-purple-600" x-text="cart.total"></span>₽
                         </div>
                     </div>
-
-                    <!-- Checkout Form -->
                     <form @submit.prevent="createPayment">
-                        <div class="mb-4">
-                            <label class="block text-gray-700 font-medium mb-2">Email</label>
-                            <input 
-                                type="email" 
-                                x-model="checkoutForm.email"
-                                required
-                                placeholder="your@email.com"
-                                class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-purple-600 focus:outline-none transition"
-                            >
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-gray-700 font-medium mb-2">Phone</label>
-                            <input 
-                                type="tel" 
-                                x-model="checkoutForm.phone"
-                                placeholder="+7 (999) 999-99-99"
-                                class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-purple-600 focus:outline-none transition"
-                            >
-                        </div>
+                        <div class="mb-4"><label class="block text-gray-700 font-medium mb-2">Email</label><input type="email" x-model="checkoutForm.email" required placeholder="your@email.com" class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-purple-600 focus:outline-none transition"></div>
+                        <div class="mb-4"><label class="block text-gray-700 font-medium mb-2">Phone</label><input type="tel" x-model="checkoutForm.phone" placeholder="+7 (999) 999-99-99" class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-purple-600 focus:outline-none transition"></div>
                         <div x-show="error" class="bg-red-50 text-red-600 p-3 rounded-lg mb-4 text-center" x-text="error"></div>
                         <div class="flex gap-4">
-                            <button 
-                                type="button"
-                                @click="showCheckout = false"
-                                class="flex-1 bg-gray-200 text-gray-700 py-3 rounded-lg hover:bg-gray-300 transition"
-                                :disabled="loading"
-                            >
-                                Cancel
-                            </button>
-                            <button 
-                                type="submit"
-                                class="flex-1 bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg hover:shadow-lg transition"
-                                :disabled="loading"
-                            >
-                                <span x-show="!loading">Pay <span x-text="cart.total"></span>₽</span>
-                                <span x-show="loading">Processing...</span>
-                            </button>
+                            <button type="button" @click="showCheckout=false" class="flex-1 bg-gray-200 text-gray-700 py-3 rounded-lg hover:bg-gray-300 transition" :disabled="loading">Cancel</button>
+                            <button type="submit" class="flex-1 bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg hover:shadow-lg transition" :disabled="loading"><span x-show="!loading">Pay <span x-text="cart.total"></span>₽</span><span x-show="loading">Processing...</span></button>
                         </div>
                     </form>
-
-                    <div class="text-center text-gray-500 mt-6 bg-gray-50 rounded-lg p-4">
-                        <p>🔒 Secure payment powered by Robokassa</p>
-                        <p>💳 We accept all major cards</p>
-                    </div>
+                    <div class="text-center text-gray-500 mt-6 bg-gray-50 rounded-lg p-4"><p>🔒 Secure payment powered by Robokassa</p><p>💳 We accept all major cards</p></div>
                 </div>
             </div>
         </div>
 
-        <!-- Product List -->
         <div x-show="!showCheckout">
             <h2 class="text-2xl font-bold text-white text-center mb-8">Our Products</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <template x-for="product in products" :key="product.id">
                     <div class="product-card bg-white rounded-2xl overflow-hidden shadow-lg transition-all duration-300">
-                        <div class="bg-gradient-to-r from-purple-600 to-indigo-600 h-44 flex items-center justify-center">
-                            <span class="text-7xl" x-text="product.image"></span>
-                        </div>
+                        <div class="bg-gradient-to-r from-purple-600 to-indigo-600 h-44 flex items-center justify-center"><span class="text-7xl" x-text="product.image"></span></div>
                         <div class="p-5">
                             <h3 class="text-xl font-bold text-gray-800 mb-2" x-text="product.name"></h3>
                             <p class="text-gray-600 mb-3" x-text="product.description"></p>
                             <p class="text-2xl font-bold text-purple-600 mb-4" x-text="product.price"></p>
-                            <button 
-                                @click="addToCart(product.id)"
-                                class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5"
-                            >
-                                Add to Cart
-                            </button>
+                            <button @click="addToCart(product.id)" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5">Add to Cart</button>
                         </div>
                     </div>
                 </template>
@@ -172,50 +88,33 @@
         </div>
     </main>
 
-    <!-- Cart Sidebar -->
-    <div x-show="showCart && !showCheckout" class="fixed inset-0 bg-black/50 z-[1000]" x-transition.opacity>
+    <div x-show="showCart&&!showCheckout" class="fixed inset-0 bg-black/50 z-[1000]" x-transition.opacity>
         <div class="absolute right-0 top-0 h-full w-full max-w-md bg-white cart-modal">
             <div class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-5 flex justify-between items-center">
                 <h2 class="text-xl font-bold">🛒 Shopping Cart</h2>
-                <button @click="showCart = false" class="text-3xl hover:bg-white/20 w-10 h-10 rounded-full transition">×</button>
+                <button @click="showCart=false" class="text-3xl hover:bg-white/20 w-10 h-10 rounded-full transition">×</button>
             </div>
             <div class="flex-1 overflow-y-auto p-5">
-                <template x-if="cart.items.length === 0">
-                    <div class="text-center py-20 text-gray-500">
-                        <p class="text-xl mb-2">Your cart is empty</p>
-                        <p>😢 No happiness yet...</p>
-                    </div>
-                </template>
-                <template x-if="cart.items.length > 0">
+                <template x-if="cart.items.length===0"><div class="text-center py-20 text-gray-500"><p class="text-xl mb-2">Your cart is empty</p><p>😢 No happiness yet...</p></div></template>
+                <template x-if="cart.items.length>0">
                     <div>
                         <div class="space-y-4">
                             <template x-for="item in cart.items" :key="item.productId">
                                 <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-lg hover:-translate-x-1 hover:shadow-md transition-all">
                                     <div class="w-14 h-14 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-lg flex items-center justify-center text-4xl" x-text="item.image"></div>
-                                    <div class="flex-1">
-                                        <h4 class="font-bold text-gray-800" x-text="item.name"></h4>
-                                        <p class="text-purple-600 font-bold" x-text="item.price"></p>₽
-                                    </div>
+                                    <div class="flex-1"><h4 class="font-bold text-gray-800" x-text="item.name"></h4><p class="text-purple-600 font-bold" x-text="item.price"></p>₽</div>
                                     <div class="flex items-center gap-2">
-                                        <button @click="updateQuantity(item.productId, item.quantity - 1)" class="w-8 h-8 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition">-</button>
+                                        <button @click="updateQuantity(item.productId,item.quantity-1)" class="w-8 h-8 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition">-</button>
                                         <span class="w-8 text-center font-bold" x-text="item.quantity"></span>
-                                        <button @click="updateQuantity(item.productId, item.quantity + 1)" class="w-8 h-8 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition">+</button>
+                                        <button @click="updateQuantity(item.productId,item.quantity+1)" class="w-8 h-8 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition">+</button>
                                         <button @click="removeFromCart(item.productId)" class="text-xl hover:scale-110 transition">🗑️</button>
                                     </div>
                                 </div>
                             </template>
                         </div>
                         <div class="mt-6 pt-6 border-t border-gray-200 bg-gray-50 p-4 rounded-lg">
-                            <div class="flex justify-between items-center mb-4 text-xl">
-                                <span>Total:</span>
-                                <span class="font-bold text-purple-600 text-2xl" x-text="cart.total"></span>₽
-                            </div>
-                            <button 
-                                @click="showCart = false; showCheckout = true"
-                                class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-4 rounded-lg hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5"
-                            >
-                                Proceed to Checkout
-                            </button>
+                            <div class="flex justify-between items-center mb-4 text-xl"><span>Total:</span><span class="font-bold text-purple-600 text-2xl" x-text="cart.total"></span>₽</div>
+                            <button @click="showCart=false;showCheckout=true" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-4 rounded-lg hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5">Proceed to Checkout</button>
                         </div>
                     </div>
                 </template>
@@ -223,111 +122,24 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="bg-white/95 backdrop-blur-sm py-6 text-center text-gray-600 mt-auto">
-        <p>© 2024 Artificial Happiness Store. All rights reserved.</p>
-        <p>Powered by Robokassa</p>
+        <p>© 2026 Artificial Happiness Store. All rights reserved.</p><p>Powered by Robokassa</p>
     </footer>
 
     <script>
-        function happinessStore() {
-            return {
-                products: [],
-                cart: { items: [], total: 0 },
-                showCart: false,
-                showCheckout: false,
-                checkoutForm: { email: '', phone: '' },
-                loading: false,
-                error: '',
-                paymentSuccess: null,
-                sessionId: localStorage.getItem('sessionId') || 'session-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9),
-
-                init() {
-                    localStorage.setItem('sessionId', this.sessionId);
-                    this.fetchProducts();
-                    this.fetchCart();
-                    this.checkPaymentSuccess();
-                },
-
-                async fetchProducts() {
-                    const response = await fetch('/api/products');
-                    this.products = await response.json();
-                },
-
-                async fetchCart() {
-                    const response = await fetch(`/api/cart/${this.sessionId}`);
-                    this.cart = await response.json();
-                },
-
-                async addToCart(productId) {
-                    await fetch(`/api/cart/${this.sessionId}/add`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ productId })
-                    });
-                    await this.fetchCart();
-                },
-
-                async removeFromCart(productId) {
-                    await fetch(`/api/cart/${this.sessionId}/item/${productId}`, {
-                        method: 'DELETE'
-                    });
-                    await this.fetchCart();
-                },
-
-                async updateQuantity(productId, quantity) {
-                    if (quantity < 1) {
-                        await this.removeFromCart(productId);
-                    } else {
-                        await fetch(`/api/cart/${this.sessionId}/item/${productId}`, {
-                            method: 'PUT',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ productId, quantity })
-                        });
-                        await this.fetchCart();
-                    }
-                },
-
-                async createPayment() {
-                    this.loading = true;
-                    this.error = '';
-                    try {
-                        const response = await fetch('/api/payment/create', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                sessionId: this.sessionId,
-                                email: this.checkoutForm.email,
-                                phone: this.checkoutForm.phone
-                            })
-                        });
-                        const data = await response.json();
-                        if (response.ok) {
-                            window.location.href = data.paymentUrl;
-                        } else {
-                            this.error = data.error || 'Failed to create payment';
-                            this.loading = false;
-                        }
-                    } catch (err) {
-                        this.error = 'Failed to create payment. Please try again.';
-                        this.loading = false;
-                    }
-                },
-
-                checkPaymentSuccess() {
-                    const params = new URLSearchParams(window.location.search);
-                    if (params.get('payment') === 'success') {
-                        this.paymentSuccess = {
-                            orderId: params.get('orderId'),
-                            amount: params.get('amount')
-                        };
-                        window.history.replaceState({}, document.title, window.location.pathname);
-                    }
-                },
-
-                get cartItemCount() {
-                    return this.cart.items.reduce((sum, item) => sum + item.quantity, 0);
-                }
+        function happinessStore(){
+            return{
+                products:[],cart:{items:[],total:0},showCart:!1,showCheckout:!1,checkoutForm:{email:'',phone:''},loading:!1,error:'',paymentSuccess:null,
+                sessionId:localStorage.getItem('sessionId')||'session-'+Date.now()+'-'+Math.random().toString(36).substr(2,9),
+                init(){localStorage.setItem('sessionId',this.sessionId);this.fetchProducts();this.fetchCart();this.checkPaymentSuccess();},
+                async fetchProducts(){const e=await fetch('/api/products');this.products=await e.json();},
+                async fetchCart(){const e=await fetch('/api/cart/'+this.sessionId);this.cart=await e.json();},
+                async addToCart(e){await fetch('/api/cart/'+this.sessionId+'/add',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({productId:e})});await this.fetchCart();},
+                async removeFromCart(e){await fetch('/api/cart/'+this.sessionId+'/item/'+e,{method:'DELETE'});await this.fetchCart();},
+                async updateQuantity(e,t){t<1?await this.removeFromCart(e):(await fetch('/api/cart/'+this.sessionId+'/item/'+e,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({productId:e,quantity:t})}),await this.fetchCart());},
+                async createPayment(){this.loading=!0,this.error='';try{const e=await fetch('/api/payment/create',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:this.sessionId,email:this.checkoutForm.email,phone:this.checkoutForm.phone})}),t=await e.json();e.ok?window.location.href=t.paymentUrl:(this.error=t.error||'Failed to create payment',this.loading=!1)}catch{this.error='Failed to create payment. Please try again.',this.loading=!1}},
+                checkPaymentSuccess(){const e=new URLSearchParams(window.location.search);e.get('payment')==='success'&&(this.paymentSuccess={orderId:e.get('orderId'),amount:e.get('amount')},window.history.replaceState({},document.title,window.location.pathname))},
+                get cartItemCount(){return this.cart.items.reduce((e,t)=>e+t.quantity,0)}
             }
         }
     </script>

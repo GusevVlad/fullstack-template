@@ -1,5 +1,6 @@
 services:
   app:
+    container_name: be
     build: .
     ports:
       - "9000:9000"
