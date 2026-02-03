@@ -1,0 +1,10 @@
+services:
+  app:
+    build: .
+    ports:
+      - "9000:9000"
+    volumes:
+      - .:/app               # Mount source for hot-reload
+      - /app/__pycache__     # Prevent pycache issues on macOS
+    environment:
+      - PYTHONUNBUFFERED=1
