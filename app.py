@@ -9,12 +9,12 @@ app = FastAPI()
 
 # Data
 products = [
-    {'id': 1, 'name': 'Joy Pill', 'description': 'Instant happiness in a pill', 'price': 999, 'image': '💊'},
-    {'id': 2, 'name': 'Laugh Gas', 'description': 'Giggle for hours', 'price': 1499, 'image': '😂'},
-    {'id': 3, 'name': 'Dream Serum', 'description': 'Sweet dreams guaranteed', 'price': 1999, 'image': '💭'},
-    {'id': 4, 'name': 'Confidence Boost', 'description': 'Unstoppable self-esteem', 'price': 2499, 'image': '💪'},
-    {'id': 5, 'name': 'Love Potion', 'description': 'Attraction magnet', 'price': 2999, 'image': '❤️'},
-    {'id': 6, 'name': 'Peace Essence', 'description': 'Inner tranquility', 'price': 3499, 'image': '🧘'},
+    {'id': 1, 'name': 'IRON GRIT', 'description': 'Pure mental fortitude supplement. Crush barriers. Break limits.', 'price': 999, 'image': '💪'},
+    {'id': 2, 'name': 'STEEL FOCUS', 'description': 'Laser-sharp concentration formula. Zero distractions. Maximum output.', 'price': 1499, 'image': '🎯'},
+    {'id': 3, 'name': 'TITAN SLEEP', 'description': 'Deep recovery protocol. Wake up reborn. DOMS destroyed.', 'price': 1999, 'image': '⚡'},
+    {'id': 4, 'name': 'BEAST MODE', 'description': 'Unleash primal power. No fear. No hesitation. Pure dominance.', 'price': 2499, 'image': '🔥'},
+    {'id': 5, 'name': 'WAR MIND', 'description': 'Tactical mental warfare. Outthink. Outlast. Outperform.', 'price': 2999, 'image': '⚔️'},
+    {'id': 6, 'name': 'ZEN FURY', 'description': 'Controlled chaos. Calm intensity. Unstoppable flow state.', 'price': 3499, 'image': '🧘'},
 ]
 
 carts = defaultdict(lambda: {'items': [], 'total': 0})
